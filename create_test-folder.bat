@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 set INSTALLER_PATH=C:\Temp\firefox_installer.exe
 
 :: URL for Firefox 64-bit version
-set FIREFOX_URL=https://download.mozilla.org/?product=firefox-latest&os=win64&lang=en-US
+set FIREFOX_URL=https://ftp.mozilla.org/pub/firefox/releases/115.11.0esr/win64/en-US/Firefox%20Setup%20115.11.0esr.msi
 
 :: Check if Firefox is already installed
 if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
