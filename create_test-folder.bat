@@ -4,10 +4,21 @@ if not exist C:\google_chrome (
     mkdir C:\google_chrome
 )
 
-:: Download Google Chrome, alleen als het nog niet gedownload is
+:: Controleer of de installatie van Chrome al gedaan is, zo niet, download de juiste versie
 if not exist C:\google_chrome\chrome_installer.exe (
     echo Downloaden van Google Chrome...
-    curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/latest/chrome_installer.exe
+
+    :: Controleer of de machine een 64-bit of 32-bit Windows heeft
+    set "ARCHITECTURE="
+    if exist "%ProgramFiles(x86)%" set ARCHITECTURE=64
+    if not defined ARCHITECTURE set ARCHITECTURE=32
+
+    :: Download de juiste versie van de installer
+    if "%ARCHITECTURE%"=="64" (
+        curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/standalonesetup64.exe
+    ) else (
+        curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/standalonesetup.exe
+    )
 )
 
 :: Installeer Google Chrome automatisch als het gedownload is
