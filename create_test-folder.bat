@@ -1,8 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: Path to save the installer
-set INSTALLER_PATH=C:\google_chrome\firefox_installer.exe
+:: Path to save the installer (Changed to C:\Temp\)
+set INSTALLER_PATH=C:\Temp\firefox_installer.exe
 
 :: URL for Firefox 64-bit version
 set FIREFOX_URL=https://download.mozilla.org/?product=firefox-latest&os=win64&lang=en-US
@@ -11,6 +11,11 @@ set FIREFOX_URL=https://download.mozilla.org/?product=firefox-latest&os=win64&la
 if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
     echo Firefox is already installed.
     exit /b
+)
+
+:: Check if the Temp directory exists, create it if not
+if not exist "C:\Temp" (
+    mkdir C:\Temp
 )
 
 :: Download Firefox if not already installed
