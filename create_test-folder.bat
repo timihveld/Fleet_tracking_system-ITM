@@ -9,18 +9,18 @@ if not exist "%INSTALL_DIR%" (
     mkdir "%INSTALL_DIR%"
 )
 
-:: Set the correct URL for the latest Firefox installer for Windows (64-bit)
-set FIREFOX_URL=https://download.mozilla.org/firefox/stable/desktop
+:: Set the correct URL for the Firefox installer (ESR version 115.11.0)
+set FIREFOX_URL=https://ftp.mozilla.org/pub/firefox/releases/115.11.0esr/win64/en-US/Firefox%20Setup%20115.11.0esr.msi
 
 :: Change to the installation folder
 cd /d "%INSTALL_DIR%"
 
 :: Download Firefox installer
 echo Downloading Firefox...
-powershell -Command "Invoke-WebRequest -Uri %FIREFOX_URL% -OutFile %INSTALL_DIR%\firefox_installer.exe"
+powershell -Command "Invoke-WebRequest -Uri %FIREFOX_URL% -OutFile %INSTALL_DIR%\firefox_installer.msi"
 
 :: Check if the file was downloaded successfully
-if exist "%INSTALL_DIR%\firefox_installer.exe" (
+if exist "%INSTALL_DIR%\firefox_installer.msi" (
     echo Firefox installer downloaded successfully.
 ) else (
     echo Failed to download Firefox installer.
@@ -29,7 +29,7 @@ if exist "%INSTALL_DIR%\firefox_installer.exe" (
 
 :: Run the installer silently
 echo Installing Firefox...
-start /wait %INSTALL_DIR%\firefox_installer.exe /silent /install
+msiexec /i "%INSTALL_DIR%\firefox_installer.msi" /quiet /norestart
 
 :: Check if installation was successful
 if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
@@ -41,7 +41,7 @@ if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
 )
 
 :: Clean up installer
-del "%INSTALL_DIR%\firefox_installer.exe"
+del "%INSTALL_DIR%\firefox_installer.msi"
 
 :: End of script
 echo Task completed. Press any key to exit.
