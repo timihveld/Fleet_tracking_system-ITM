@@ -2,46 +2,46 @@
 setlocal
 
 :: Set the path for the installation folder
-set INSTALL_DIR=C:\google_chrome
+set INSTALL_DIR=C:\firefox_installer
 
 :: Check if the folder already exists and create it if necessary
 if not exist "%INSTALL_DIR%" (
     mkdir "%INSTALL_DIR%"
 )
 
-:: Set the download URL for the 64-bit version of Google Chrome for Windows
-set CHROME_URL=https://dl.google.com/chrome/install/standalone/chrome_installer.exe
+:: Set the download URL for the latest version of Firefox for Windows (64-bit)
+set FIREFOX_URL=https://download.mozilla.org/?product=firefox-stable-ssl&os=win64&lang=en-US
 
 :: Change to the installation folder
 cd /d "%INSTALL_DIR%"
 
-:: Download Google Chrome installer
-echo Downloading Google Chrome...
-powershell -Command "Invoke-WebRequest -Uri %CHROME_URL% -OutFile %INSTALL_DIR%\chrome_installer.exe"
+:: Download Firefox installer
+echo Downloading Firefox...
+powershell -Command "Invoke-WebRequest -Uri %FIREFOX_URL% -OutFile %INSTALL_DIR%\firefox_installer.exe"
 
 :: Check if the file was downloaded successfully
-if exist "%INSTALL_DIR%\chrome_installer.exe" (
-    echo Google Chrome installer downloaded successfully.
+if exist "%INSTALL_DIR%\firefox_installer.exe" (
+    echo Firefox installer downloaded successfully.
 ) else (
-    echo Failed to download Google Chrome installer.
+    echo Failed to download Firefox installer.
     exit /b 1
 )
 
 :: Run the installer silently
-echo Installing Google Chrome...
-start /wait %INSTALL_DIR%\chrome_installer.exe --silent --install
+echo Installing Firefox...
+start /wait %INSTALL_DIR%\firefox_installer.exe /silent /install
 
 :: Check if installation was successful
-if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
-    echo Google Chrome installed successfully.
-    echo Google Chrome has been successfully installed! >> C:\installation_log.txt
+if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
+    echo Firefox installed successfully.
+    echo Firefox has been successfully installed! >> C:\installation_log.txt
 ) else (
     echo Installation failed.
-    echo Google Chrome installation failed! >> C:\installation_log.txt
+    echo Firefox installation failed! >> C:\installation_log.txt
 )
 
 :: Clean up installer
-del "%INSTALL_DIR%\chrome_installer.exe"
+del "%INSTALL_DIR%\firefox_installer.exe"
 
 :: End of script
 echo Task completed. Press any key to exit.
