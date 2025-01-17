@@ -13,18 +13,25 @@ if not exist C:\google_chrome\chrome_installer.exe (
     if exist "%ProgramFiles(x86)%" set ARCHITECTURE=64
     if not defined ARCHITECTURE set ARCHITECTURE=32
 
-    :: Download de juiste versie van de installer
+    :: Download de juiste versie van de installer van een betrouwbare bron
     if "%ARCHITECTURE%"=="64" (
+        echo 64-bit versie gedetecteerd, downloaden van de 64-bit Chrome installer...
         curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/standalonesetup64.exe
     ) else (
+        echo 32-bit versie gedetecteerd, downloaden van de 32-bit Chrome installer...
         curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/standalonesetup.exe
     )
 )
 
-:: Installeer Google Chrome automatisch als het gedownload is
+:: Controleer of de installer aanwezig is en voer deze uit
 if exist C:\google_chrome\chrome_installer.exe (
     echo Installeren van Google Chrome...
-    C:\google_chrome\chrome_installer.exe /silent /install
+    start /wait C:\google_chrome\chrome_installer.exe /silent /install
+    if errorlevel 1 (
+        echo Er is een fout opgetreden tijdens de installatie van Google Chrome.
+    ) else (
+        echo Google Chrome is succesvol geïnstalleerd.
+    )
 )
 
 :: Maak een tekstbestand met de boodschap voor TBM en CI/CD
