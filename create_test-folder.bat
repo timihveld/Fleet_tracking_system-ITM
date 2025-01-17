@@ -9,7 +9,7 @@ if not exist "%INSTALL_DIR%" (
     mkdir "%INSTALL_DIR%"
 )
 
-:: Set the direct URL for the latest Firefox installer for Windows (64-bit)
+:: Set the correct URL for the latest Firefox installer for Windows (64-bit)
 set FIREFOX_URL=https://download.mozilla.org/firefox/stable/desktop
 
 :: Change to the installation folder
