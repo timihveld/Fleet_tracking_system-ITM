@@ -9,8 +9,8 @@ if not exist "%INSTALL_DIR%" (
     mkdir "%INSTALL_DIR%"
 )
 
-:: Set the download URL for the latest version of Firefox for Windows (64-bit)
-set FIREFOX_URL=https://download.mozilla.org/?product=firefox-stable-ssl&os=win64&lang=en-US
+:: Set the direct URL for the latest Firefox installer for Windows (64-bit)
+set FIREFOX_URL=https://download.mozilla.org/firefox/stable/desktop
 
 :: Change to the installation folder
 cd /d "%INSTALL_DIR%"
