@@ -10,8 +10,8 @@ if not exist C:\google_chrome\chrome_installer.exe (
     curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/latest/chrome_installer.exe
 )
 
-:: Installeer Google Chrome, alleen als het nog niet geïnstalleerd is
-if not exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
+:: Installeer Google Chrome automatisch als het gedownload is
+if exist C:\google_chrome\chrome_installer.exe (
     echo Installeren van Google Chrome...
     C:\google_chrome\chrome_installer.exe /silent /install
 )
@@ -20,5 +20,5 @@ if not exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
 echo Dit is voor de opdracht van Technische Beheer en Monitoring (TBM) en CI/CD en werkt! > C:\google_chrome\opdracht_uitgevoerd.txt
 
 :: Bevestiging
-echo Map, bestand, en Google Chrome zijn succesvol aangemaakt en geïnstalleerd.
+echo Google Chrome is succesvol gedownload, geïnstalleerd en de opdracht is voltooid.
 pause
