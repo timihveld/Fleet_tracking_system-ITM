@@ -1,42 +1,48 @@
 @echo off
-:: Controleer of de map C:\google_chrome bestaat, maak deze alleen aan als deze nog niet bestaat
-if not exist C:\google_chrome (
-    mkdir C:\google_chrome
+setlocal
+
+:: Set the path for the installation folder
+set INSTALL_DIR=C:\google_chrome
+
+:: Check if the folder already exists and create it if necessary
+if not exist "%INSTALL_DIR%" (
+    mkdir "%INSTALL_DIR%"
 )
 
-:: Controleer of de installatie van Chrome al gedaan is, zo niet, download de juiste versie
-if not exist C:\google_chrome\chrome_installer.exe (
-    echo Downloaden van Google Chrome...
+:: Set the download URL for the 64-bit version of Google Chrome for Windows
+set CHROME_URL=https://dl.google.com/chrome/install/standalone/chrome_installer.exe
 
-    :: Controleer of de machine een 64-bit of 32-bit Windows heeft
-    set "ARCHITECTURE="
-    if exist "%ProgramFiles(x86)%" set ARCHITECTURE=64
-    if not defined ARCHITECTURE set ARCHITECTURE=32
+:: Change to the installation folder
+cd /d "%INSTALL_DIR%"
 
-    :: Download de juiste versie van de installer van een betrouwbare bron
-    if "%ARCHITECTURE%"=="64" (
-        echo 64-bit versie gedetecteerd, downloaden van de 64-bit Chrome installer...
-        curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/standalonesetup64.exe
-    ) else (
-        echo 32-bit versie gedetecteerd, downloaden van de 32-bit Chrome installer...
-        curl -o C:\google_chrome\chrome_installer.exe https://dl.google.com/chrome/install/standalonesetup.exe
-    )
+:: Download Google Chrome installer
+echo Downloading Google Chrome...
+powershell -Command "Invoke-WebRequest -Uri %CHROME_URL% -OutFile %INSTALL_DIR%\chrome_installer.exe"
+
+:: Check if the file was downloaded successfully
+if exist "%INSTALL_DIR%\chrome_installer.exe" (
+    echo Google Chrome installer downloaded successfully.
+) else (
+    echo Failed to download Google Chrome installer.
+    exit /b 1
 )
 
-:: Controleer of de installer aanwezig is en voer deze uit
-if exist C:\google_chrome\chrome_installer.exe (
-    echo Installeren van Google Chrome...
-    start /wait C:\google_chrome\chrome_installer.exe /silent /install
-    if errorlevel 1 (
-        echo Er is een fout opgetreden tijdens de installatie van Google Chrome.
-    ) else (
-        echo Google Chrome is succesvol geïnstalleerd.
-    )
+:: Run the installer silently
+echo Installing Google Chrome...
+start /wait %INSTALL_DIR%\chrome_installer.exe --silent --install
+
+:: Check if installation was successful
+if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
+    echo Google Chrome installed successfully.
+    echo Google Chrome has been successfully installed! >> C:\installation_log.txt
+) else (
+    echo Installation failed.
+    echo Google Chrome installation failed! >> C:\installation_log.txt
 )
 
-:: Maak een tekstbestand met de boodschap voor TBM en CI/CD
-echo Dit is voor de opdracht van Technische Beheer en Monitoring (TBM) en CI/CD en werkt! > C:\google_chrome\opdracht_uitgevoerd.txt
+:: Clean up installer
+del "%INSTALL_DIR%\chrome_installer.exe"
 
-:: Bevestiging
-echo Google Chrome is succesvol gedownload, geïnstalleerd en de opdracht is voltooid.
+:: End of script
+echo Task completed. Press any key to exit.
 pause
